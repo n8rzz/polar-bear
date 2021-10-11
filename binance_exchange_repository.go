@@ -3,23 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	"github.com/adshao/go-binance/v2"
 )
-
-type ExchangeSymbol struct {
-	symbol      string
-	status      string
-	base_asset  string
-	quote_asset string
-}
-
-type CandleRequest struct {
-	ticker   string
-	interval string
-	limit    int
-}
 
 type BinanceExchangeRepository struct {
 	client *binance.Client
@@ -37,22 +26,24 @@ func (e BinanceExchangeRepository) Name() string {
 }
 
 func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, limit int) ([]*binance.Kline, error) {
+	fmt.Printf("Candles for: %v, interval: %v\n\n", ticker, interval)
+
 	klines, err := e.client.NewKlinesService().Symbol(ticker).Interval(interval).Limit(limit).Do(context.Background())
 
 	return klines, err
 }
 
-func (e BinanceExchangeRepository) GetExchangeInfo() (*binance.ExchangeInfo, error) {
+func (e BinanceExchangeRepository) GetExchangeInfo() []ExchangeInfoSymbol {
 	res, err := e.client.NewExchangeInfoService().Do(context.Background())
 
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
 
-	available_exchange_symbols := make([]ExchangeSymbol, len(res.Symbols))
+	available_exchange_symbols := make([]ExchangeInfoSymbol, len(res.Symbols))
 
 	for i, s := range res.Symbols {
-		e := ExchangeSymbol{
+		e := ExchangeInfoSymbol{
 			s.Symbol,
 			s.Status,
 			s.BaseAsset,
@@ -61,20 +52,31 @@ func (e BinanceExchangeRepository) GetExchangeInfo() (*binance.ExchangeInfo, err
 		available_exchange_symbols[i] = e
 	}
 
-	fmt.Printf("available_exchange_symbols: %+v\n\n", available_exchange_symbols)
-
-	return res, nil
+	return available_exchange_symbols
 }
 
-func FetchCandleDataAndGenerateSignals(req CandleRequest, repository *BinanceExchangeRepository) {
+func FetchCandleDataAndGenerateSignals(repository *BinanceExchangeRepository) {
 	repository.Init()
-	// repository.GetExchangeInfo()
+	symbols := repository.GetExchangeInfo()
 
-	candles, err := repository.GetCandles(req.ticker, req.interval, req.limit)
+	fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(symbols), repository.Name())
 
-	if err != nil {
-		fmt.Println(err)
+	for _, e := range symbols {
+		// goroutine
+		fmt.Println("")
+		fmt.Println("++++++++++")
+		req := CandleRequest{interval: "15m", limit: 1000}
+		candles, err := repository.GetCandles(e.symbol, req.interval, req.limit)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		CalculateSignals(candles)
+
+		fmt.Println("")
+		fmt.Println("----------")
+
+		time.Sleep(2 * time.Second)
 	}
-
-	CalculateSignals(candles)
 }

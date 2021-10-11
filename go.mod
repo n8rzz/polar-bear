@@ -8,6 +8,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/klauspost/compress v1.13.1 // indirect
+	github.com/markcheno/go-talib v0.0.0-20190307022042-cd53a9264d70 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sdcoffey/big v0.7.0 // indirect
 	github.com/sdcoffey/techan v0.12.1 // indirect

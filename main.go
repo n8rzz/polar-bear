@@ -8,7 +8,7 @@ import (
 
 /*
  this bot's work can be broken down into three phases:
- monitor -> signal -> order
+ scan -> signal -> order
 
  more specifically:
 
@@ -16,8 +16,10 @@ import (
  - periodically pull candles
  - check for signals for each ticker
  - when found, attempt to open position
+ - monitor open order until accept
  - monitor position for closing singal
  - when found, attempt to close position
+ - monitor close order until accept
 */
 func main() {
 	err := godotenv.Load()
@@ -27,7 +29,6 @@ func main() {
 	}
 
 	repository := &BinanceExchangeRepository{}
-	req := CandleRequest{ticker: "BNBBUSD", interval: "15m", limit: 1000}
 
-	FetchCandleDataAndGenerateSignals(req, repository)
+	FetchCandleDataAndGenerateSignals(repository)
 }
