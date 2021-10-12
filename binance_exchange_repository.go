@@ -5,36 +5,52 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/adshao/go-binance/v2"
 )
 
-type BinanceExchangeRepository struct {
-	client *binance.Client
-}
+var client *binance.Client
+
+type BinanceExchangeRepository struct{}
 
 func (e *BinanceExchangeRepository) Init() {
 	apiKey := os.Getenv("BINANCE_API_KEY")
 	secretKey := os.Getenv("BINANCE_SECRET_KEY")
 	binance.UseTestnet = true
-	e.client = binance.NewClient(apiKey, secretKey)
+	client = binance.NewClient(apiKey, secretKey)
 }
 
 func (e BinanceExchangeRepository) Name() string {
 	return "binanceus"
 }
 
-func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, limit int) ([]*binance.Kline, error) {
+func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, limit int) ([]Candle, error) {
 	fmt.Printf("Candles for: %v, interval: %v\n\n", ticker, interval)
 
-	klines, err := e.client.NewKlinesService().Symbol(ticker).Interval(interval).Limit(limit).Do(context.Background())
+	klines, err := client.NewKlinesService().Symbol(ticker).Interval(interval).Limit(limit).Do(context.Background())
 
-	return klines, err
+	if err != nil {
+		return nil, err
+	}
+
+	candles := make([]Candle, len(klines))
+
+	for i, k := range klines {
+		candles[i] = Candle{
+			close:     k.Close,
+			high:      k.High,
+			low:       k.Low,
+			open:      k.Open,
+			open_time: k.OpenTime / 1000,
+			volume:    k.Volume,
+		}
+	}
+
+	return candles, nil
 }
 
 func (e BinanceExchangeRepository) GetExchangeInfo() []ExchangeInfoSymbol {
-	res, err := e.client.NewExchangeInfoService().Do(context.Background())
+	res, err := client.NewExchangeInfoService().Do(context.Background())
 
 	if err != nil {
 		log.Fatal(err)
@@ -53,30 +69,4 @@ func (e BinanceExchangeRepository) GetExchangeInfo() []ExchangeInfoSymbol {
 	}
 
 	return available_exchange_symbols
-}
-
-func FetchCandleDataAndGenerateSignals(repository *BinanceExchangeRepository) {
-	repository.Init()
-	symbols := repository.GetExchangeInfo()
-
-	fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(symbols), repository.Name())
-
-	for _, e := range symbols {
-		// goroutine
-		fmt.Println("")
-		fmt.Println("++++++++++")
-		req := CandleRequest{interval: "15m", limit: 1000}
-		candles, err := repository.GetCandles(e.symbol, req.interval, req.limit)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		CalculateSignals(candles)
-
-		fmt.Println("")
-		fmt.Println("----------")
-
-		time.Sleep(2 * time.Second)
-	}
 }

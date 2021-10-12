@@ -28,7 +28,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	repository := &BinanceExchangeRepository{}
+	// repository := &BinanceExchangeRepository{}
+	repository := AlpachaExchangeRepository{}
 
 	FetchCandleDataAndGenerateSignals(repository)
 }
