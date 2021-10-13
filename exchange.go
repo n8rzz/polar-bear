@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 type Candle struct {
 	close     string
 	high      string
@@ -39,26 +44,26 @@ type ExchangeRepository interface {
 
 func FetchCandleDataAndGenerateSignals(repository ExchangeRepository) {
 	repository.Init()
-	// symbols := repository.GetExchangeInfo()
+	symbols := repository.GetExchangeInfo()
 
-	// fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(symbols), repository.Name())
+	fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(symbols), repository.Name())
 
-	// for _, e := range symbols {
-	// 	// goroutine
-	// 	fmt.Println("")
-	// 	fmt.Println("++++++++++")
-	// 	req := CandleRequest{interval: "15m", limit: 1000}
-	// 	candles, err := repository.GetCandles(e.symbol, req.interval, req.limit)
+	for _, e := range symbols {
+		// goroutine
+		fmt.Println("")
+		fmt.Println("++++++++++")
+		req := CandleRequest{interval: "15m", limit: 1000}
+		candles, err := repository.GetCandles(e.symbol, req.interval, req.limit)
 
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	}
+		if err != nil {
+			fmt.Println(err)
+		}
 
-	// 	CalculateSignals(candles)
+		CalculateSignals(candles)
 
-	// 	fmt.Println("")
-	// 	fmt.Println("----------")
+		fmt.Println("")
+		fmt.Println("----------")
 
-	// 	time.Sleep(2 * time.Second)
-	// }
+		time.Sleep(2 * time.Second)
+	}
 }

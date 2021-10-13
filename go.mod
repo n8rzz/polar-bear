@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/adshao/go-binance/v2 v2.3.2 // indirect
-	github.com/alpacahq/alpaca-trade-api-go/v2 v2.0.2 // indirect
+	github.com/alpacahq/alpaca-trade-api-go/v2 v2.0.3-0.20211012113008-abbc82b44797 // indirect
 	github.com/bitly/go-simplejson v0.5.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect

@@ -3,8 +3,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/RobinUS2/golang-moving-average v1.0.0/go.mod h1:MdzhY+KoEvi+OBygTPH0OSaKrOJzvILWN2SPQzaKVsY=
 github.com/adshao/go-binance/v2 v2.3.2 h1:qIXuCUDma9yrnQ1qP0PQZrHwA9d/4b8UaFxw+5TQKFU=
 github.com/adshao/go-binance/v2 v2.3.2/go.mod h1:TfcBwfGtmRibSljDDR0XCaPkfBt1kc2N9lnNMYC3dCQ=
-github.com/alpacahq/alpaca-trade-api-go/v2 v2.0.2 h1:r3EHXWIPeWN3hCwMieW4D45/92rIGYGXgrc4j9+F0oY=
-github.com/alpacahq/alpaca-trade-api-go/v2 v2.0.2/go.mod h1:GzRrHvmZAA5uKsZRUPepFwMI+FvgD6CLmYSD6fAmrcs=
+github.com/alpacahq/alpaca-trade-api-go/v2 v2.0.3-0.20211012113008-abbc82b44797 h1:eN1M8X1/gDMl5F9g/vGJ7PN6w16ISWinAFxuDCK7yaA=
+github.com/alpacahq/alpaca-trade-api-go/v2 v2.0.3-0.20211012113008-abbc82b44797/go.mod h1:GzRrHvmZAA5uKsZRUPepFwMI+FvgD6CLmYSD6fAmrcs=
 github.com/bitly/go-simplejson v0.5.0 h1:6IH+V8/tVMab511d5bn4M7EwGXZf9Hj6i2xSwkNEM+Y=
 github.com/bitly/go-simplejson v0.5.0/go.mod h1:cXHtHw4XUPsvGaxgjIAn8PhEWG9NfngEKAMDJEczWVA=
 github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869/go.mod h1:Ekp36dRnpXw/yCqJaO+ZrUyxD+3VXMFFr56k5XYrpB4=

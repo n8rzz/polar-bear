@@ -9,7 +9,7 @@ import (
 	"github.com/adshao/go-binance/v2"
 )
 
-var client *binance.Client
+var binance_client *binance.Client
 
 type BinanceExchangeRepository struct{}
 
@@ -17,7 +17,7 @@ func (e *BinanceExchangeRepository) Init() {
 	apiKey := os.Getenv("BINANCE_API_KEY")
 	secretKey := os.Getenv("BINANCE_SECRET_KEY")
 	binance.UseTestnet = true
-	client = binance.NewClient(apiKey, secretKey)
+	binance_client = binance.NewClient(apiKey, secretKey)
 }
 
 func (e BinanceExchangeRepository) Name() string {
@@ -27,7 +27,7 @@ func (e BinanceExchangeRepository) Name() string {
 func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, limit int) ([]Candle, error) {
 	fmt.Printf("Candles for: %v, interval: %v\n\n", ticker, interval)
 
-	klines, err := client.NewKlinesService().Symbol(ticker).Interval(interval).Limit(limit).Do(context.Background())
+	klines, err := binance_client.NewKlinesService().Symbol(ticker).Interval(interval).Limit(limit).Do(context.Background())
 
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, li
 }
 
 func (e BinanceExchangeRepository) GetExchangeInfo() []ExchangeInfoSymbol {
-	res, err := client.NewExchangeInfoService().Do(context.Background())
+	res, err := binance_client.NewExchangeInfoService().Do(context.Background())
 
 	if err != nil {
 		log.Fatal(err)
