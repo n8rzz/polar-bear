@@ -1,0 +1,18 @@
+{
+  "exchange": ["binanceus"],
+  "id": "1",
+  "isActive": true,
+  "isPaper": true,
+  "maxAllocationAmount": "100.00",
+  "maxOpenBuyOrderTime": 10,
+  "maxOpenPositions": 10,
+  "maxOpenSellOrderTime": 10,
+  "minOrderAmount": "100.00",
+  "name": "Test Bot",
+  "numberOfTargets": 3,
+  "shouldNotifyOnCancel": true,
+  "shouldNotifyOnError": true,
+  "shouldNotifyOnTrade": true,
+  "strategy_id": "1",
+  "tickers": [""]
+}

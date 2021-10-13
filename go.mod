@@ -15,6 +15,7 @@ require (
 	github.com/sdcoffey/techan v0.12.1 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )

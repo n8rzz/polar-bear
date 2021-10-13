@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 type Candle struct {
@@ -42,16 +41,16 @@ type ExchangeRepository interface {
 	// SellMarket()
 }
 
-func FetchCandleDataAndGenerateSignals(repository ExchangeRepository) {
+func FetchCandleDataAndGenerateSignals(repository ExchangeRepository) map[string][]Candle {
 	repository.Init()
 	symbols := repository.GetExchangeInfo()
 
 	fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(symbols), repository.Name())
 
+	ticker_candles := make(map[string][]Candle, len(symbols))
+
 	for _, e := range symbols {
 		// goroutine
-		fmt.Println("")
-		fmt.Println("++++++++++")
 		req := CandleRequest{interval: "15m", limit: 1000}
 		candles, err := repository.GetCandles(e.symbol, req.interval, req.limit)
 
@@ -59,11 +58,8 @@ func FetchCandleDataAndGenerateSignals(repository ExchangeRepository) {
 			fmt.Println(err)
 		}
 
-		CalculateSignals(candles)
-
-		fmt.Println("")
-		fmt.Println("----------")
-
-		time.Sleep(2 * time.Second)
+		ticker_candles[e.symbol] = candles
 	}
+
+	return ticker_candles
 }

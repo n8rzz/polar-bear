@@ -1,0 +1,37 @@
+{
+  "id": "1",
+  "name": "Basic Strategy",
+  "exchange": [
+    "binanceus"
+  ],
+  "strategies": [
+    {
+      "indicator": "rsi",
+      "isRequired": true,
+      "keepSignalLength": 1,
+      "params": {
+        "period": 9,
+        "signalWhen": {
+          "comparison": ">=",
+          "value": 70
+        }
+      },
+      "period": 300,
+      "type": "Buy"
+    },
+    {
+      "indicator": "rsi",
+      "isRequired": true,
+      "keepSignalLength": 3,
+      "params": {
+        "period": 20,
+        "signalWhen": {
+          "comparison": "<=",
+          "value": 30
+        }
+      },
+      "period": 300,
+      "type": "Sell"
+    }
+  ]
+}

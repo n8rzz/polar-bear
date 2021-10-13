@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -28,8 +30,23 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	repository := &BinanceExchangeRepository{}
-	// repository := AlpachaExchangeRepository{}
+	botConfigs := LoadBotConfig()
+	strategyConfigs := LoadStrategy()
 
-	FetchCandleDataAndGenerateSignals(repository)
+	bot := botConfigs.NewBotFromConfig(strategyConfigs)
+
+	s, _ := json.MarshalIndent(bot, "", "\t")
+	fmt.Printf("Bot: %+v\n\n", string(s))
+
+	fmt.Print("------------\n")
+
+	// repository := &BinanceExchangeRepository{}
+	// ticker_candles := FetchCandleDataAndGenerateSignals(repository)
+
+	// for k := range ticker_candles {
+	// fmt.Print("\n------------\n")
+	// 	fmt.Printf("CalculateSignals for %s\n", k)
+	// 	CalculateSignals(ticker_candles[k])
+	// 	fmt.Print("\n+++ +++ +++\n")
+	// }
 }

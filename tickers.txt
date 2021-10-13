@@ -1,5 +1,0 @@
-tsla
-gsat
-opt
-amd
-bac
