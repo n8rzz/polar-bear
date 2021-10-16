@@ -1,23 +1,22 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/adshao/go-binance/v2"
 )
 
 var binance_client *binance.Client
 
-type BinanceExchangeRepository struct{}
+type BinanceExchangeRepository struct {
+	service *BinanceService
+}
 
-func (e *BinanceExchangeRepository) Init() {
-	apiKey := os.Getenv("BINANCE_API_KEY")
-	secretKey := os.Getenv("BINANCE_SECRET_KEY")
-	binance.UseTestnet = true
-	binance_client = binance.NewClient(apiKey, secretKey)
+func (e *BinanceExchangeRepository) Init(service *BinanceService) {
+	e.service = service
+
+	e.service.Init()
 }
 
 func (e BinanceExchangeRepository) Name() string {
@@ -27,7 +26,7 @@ func (e BinanceExchangeRepository) Name() string {
 func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, limit int) ([]Candle, error) {
 	fmt.Printf("Candles for: %v, interval: %v\n\n", ticker, interval)
 
-	klines, err := binance_client.NewKlinesService().Symbol(ticker).Interval(interval).Limit(limit).Do(context.Background())
+	klines, err := e.service.GetCandles(ticker, interval, limit)
 
 	if err != nil {
 		return nil, err
@@ -50,7 +49,7 @@ func (e BinanceExchangeRepository) GetCandles(ticker string, interval string, li
 }
 
 func (e BinanceExchangeRepository) GetExchangeInfo() []ExchangeInfoSymbol {
-	res, err := binance_client.NewExchangeInfoService().Do(context.Background())
+	res, err := e.service.GetExchangeInfo()
 
 	if err != nil {
 		log.Fatal(err)

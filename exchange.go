@@ -36,15 +36,13 @@ type ExchangeRepository interface {
 	// GetOrderBook()
 	// GetTicker()
 	IsSymbolTradable(symbol string, exchange_info []ExchangeInfoSymbol) bool
-	Init()
+	Init(service *BinanceService)
 	Name() string
 	// SellLimit()
 	// SellMarket()
 }
 
 func FetchCandleDataAndGenerateSignals(bot *Bot, repository ExchangeRepository) map[string][]Candle {
-	repository.Init()
-
 	exchange_symbols := repository.GetExchangeInfo()
 
 	fmt.Printf("exchange_symbols - %+v\n\n", exchange_symbols)

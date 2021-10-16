@@ -42,6 +42,10 @@ func main() {
 	}
 
 	repository := &BinanceExchangeRepository{}
+	service := &BinanceService{}
+
+	repository.Init(service)
+
 	ticker_candles := FetchCandleDataAndGenerateSignals(bot, repository)
 
 	for k := range ticker_candles {
