@@ -35,30 +35,35 @@ type ExchangeRepository interface {
 	// GetMarketSummary()
 	// GetOrderBook()
 	// GetTicker()
+	IsSymbolTradable(symbol string, exchange_info []ExchangeInfoSymbol) bool
 	Init()
 	Name() string
 	// SellLimit()
 	// SellMarket()
 }
 
-func FetchCandleDataAndGenerateSignals(repository ExchangeRepository) map[string][]Candle {
+func FetchCandleDataAndGenerateSignals(bot *Bot, repository ExchangeRepository) map[string][]Candle {
 	repository.Init()
-	symbols := repository.GetExchangeInfo()
 
-	fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(symbols), repository.Name())
+	exchange_symbols := repository.GetExchangeInfo()
 
-	ticker_candles := make(map[string][]Candle, len(symbols))
+	fmt.Printf("exchange_symbols - %+v\n\n", exchange_symbols)
+	fmt.Printf("Scanning %v symbols from %v exchange\n\n", len(exchange_symbols), repository.Name())
 
-	for _, e := range symbols {
+	ticker_candles := make(map[string][]Candle, len(bot.Config.Tickers))
+
+	for _, t := range bot.Config.Tickers {
 		// goroutine
-		req := CandleRequest{interval: "15m", limit: 1000}
-		candles, err := repository.GetCandles(e.symbol, req.interval, req.limit)
+		if repository.IsSymbolTradable(t, exchange_symbols) {
+			req := CandleRequest{interval: "15m", limit: 1000}
+			candles, err := repository.GetCandles(t, req.interval, req.limit)
 
-		if err != nil {
-			fmt.Println(err)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			ticker_candles[t] = candles
 		}
-
-		ticker_candles[e.symbol] = candles
 	}
 
 	return ticker_candles

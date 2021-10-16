@@ -14,5 +14,11 @@
   "shouldNotifyOnError": true,
   "shouldNotifyOnTrade": true,
   "strategy_id": "1",
-  "tickers": [""]
+  "tickers": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "LTCUSDT",
+    "ETHBTC",
+    "LTCBTC"
+  ]
 }

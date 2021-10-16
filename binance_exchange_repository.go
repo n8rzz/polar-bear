@@ -70,3 +70,15 @@ func (e BinanceExchangeRepository) GetExchangeInfo() []ExchangeInfoSymbol {
 
 	return available_exchange_symbols
 }
+
+func (e BinanceExchangeRepository) IsSymbolTradable(symbol string, exchange_info []ExchangeInfoSymbol) bool {
+	for _, t := range exchange_info {
+		if symbol != t.symbol {
+			continue
+		}
+
+		return t.status == "TRADING"
+	}
+
+	return false
+}

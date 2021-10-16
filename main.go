@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -32,21 +31,23 @@ func main() {
 
 	botConfigs := LoadBotConfig()
 	strategyConfigs := LoadStrategy()
-
 	bot := botConfigs.NewBotFromConfig(strategyConfigs)
 
-	s, _ := json.MarshalIndent(bot, "", "\t")
-	fmt.Printf("Bot: %+v\n\n", string(s))
+	// s, err := json.MarshalIndent(bot, "", "\t")
+	// fmt.Printf("Bot: %+v\n\n", string(s))
+	fmt.Print("============\n")
 
-	fmt.Print("------------\n")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// repository := &BinanceExchangeRepository{}
-	// ticker_candles := FetchCandleDataAndGenerateSignals(repository)
+	repository := &BinanceExchangeRepository{}
+	ticker_candles := FetchCandleDataAndGenerateSignals(bot, repository)
 
-	// for k := range ticker_candles {
-	// fmt.Print("\n------------\n")
-	// 	fmt.Printf("CalculateSignals for %s\n", k)
-	// 	CalculateSignals(ticker_candles[k])
-	// 	fmt.Print("\n+++ +++ +++\n")
-	// }
+	for k := range ticker_candles {
+		fmt.Print("\n\n------------\n\n")
+		fmt.Printf("CalculateSignals for %s\n", k)
+		CalculateSignals(ticker_candles[k])
+		fmt.Print("\n+++ +++ +++\n\n")
+	}
 }
