@@ -13,8 +13,12 @@ type SignalComparisonAndValue struct {
 }
 
 type StrategySegmentParams struct {
-	Period     int                      `json:"period"`
-	SignalWhen SignalComparisonAndValue `json:"signal_when"`
+	CrossingType      string                   `json:"crossing_type"`
+	FastPeriod        int                      `json:"fast_period"`
+	MovingAverageType int                      `json:"moving_average_type"`
+	Period            int                      `json:"period"`
+	SignalWhen        SignalComparisonAndValue `json:"signal_when"`
+	SlowPeriod        int                      `json:"slow_period"`
 }
 
 type StrategySegment struct {
@@ -27,10 +31,10 @@ type StrategySegment struct {
 }
 
 type Strategy struct {
-	Exchange   string            `json:"exchange"`
-	Id         string            `json:"id"`
-	Name       string            `json:"name"`
-	Strategies []StrategySegment `json:"strategies"`
+	Exchange string            `json:"exchange"`
+	Id       string            `json:"id"`
+	Name     string            `json:"name"`
+	Segments []StrategySegment `json:"segments"`
 }
 
 func LoadStrategy() Strategy {

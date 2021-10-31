@@ -1,37 +1,60 @@
 {
-  "id": "1",
-  "name": "Basic Strategy",
-  "exchange": [
-    "binanceus"
-  ],
-  "strategies": [
-    {
-      "indicator": "rsi",
-      "isRequired": true,
-      "keepSignalLength": 1,
-      "params": {
-        "period": 9,
-        "signalWhen": {
-          "comparison": ">=",
-          "value": 70
+    "id": "1",
+    "name": "Basic Strategy",
+    "segments": [
+        {
+            "indicator": "apo",
+            "is_required": true,
+            "keep_signal_length": 1,
+            "params": {
+                "crossing_type": "FastAboveSlow",
+                "fast_period": 12,
+                "moving_average_type": "Exponential",
+                "slow_period": 26
+            },
+            "period": 300,
+            "type": "Buy"
+        },
+        {
+            "indicator": "ema",
+            "is_required": true,
+            "keep_signal_length": 1,
+            "params": {
+                "crossing_type": "FastBelowSlow",
+                "fast_period": 9,
+                "moving_average_type": "Exponential",
+                "slow_period": 20
+            },
+            "period": 300,
+            "type": "Buy"
+        },
+        {
+            "indicator": "rsi",
+            "is_required": true,
+            "keep_signal_length": 1,
+            "params": {
+                "period": 9,
+                "signal_when": {
+                    "comparison": ">=",
+                    "value": 70
+                }
+            },
+            "period": 300,
+            "type": "Buy"
+        },
+        {
+            "indicator": "rsi",
+            "is_required": true,
+            "keep_signal_length": 3,
+            "params": {
+                "period": 20,
+                "signal_when": {
+                    "comparison": "<=",
+                    "value": 30
+                }
+            },
+            "period": 300,
+            "type": "Sell"
         }
-      },
-      "period": 300,
-      "type": "Buy"
-    },
-    {
-      "indicator": "rsi",
-      "isRequired": true,
-      "keepSignalLength": 3,
-      "params": {
-        "period": 20,
-        "signalWhen": {
-          "comparison": "<=",
-          "value": 30
-        }
-      },
-      "period": 300,
-      "type": "Sell"
-    }
-  ]
+    ]
 }

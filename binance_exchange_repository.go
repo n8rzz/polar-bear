@@ -3,11 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
-
-	"github.com/adshao/go-binance/v2"
 )
-
-var binance_client *binance.Client
 
 type BinanceExchangeRepository struct {
 	service *BinanceService

@@ -32,7 +32,7 @@ func IsFastAboveSlow(slow, fast []float64) bool {
 	return fast[fast_length-1] > slow[slow_length-1]
 }
 
-func CalculateSignals(candles []Candle) {
+func CalculateSignals(candles []Candle, bot *Bot) {
 	close_prices := make([]float64, len(candles))
 
 	for i, entry := range candles {

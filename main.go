@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -33,9 +34,9 @@ func main() {
 	strategyConfigs := LoadStrategy()
 	bot := botConfigs.NewBotFromConfig(strategyConfigs)
 
-	// s, err := json.MarshalIndent(bot, "", "\t")
-	// fmt.Printf("Bot: %+v\n\n", string(s))
-	fmt.Print("============\n")
+	s, err := json.MarshalIndent(bot, "", "\t")
+	fmt.Printf("Bot: %+v\n\n", string(s))
+	fmt.Print("\n\n============\n")
 
 	if err != nil {
 		log.Fatal(err)
@@ -51,7 +52,7 @@ func main() {
 	for k := range ticker_candles {
 		fmt.Print("\n\n------------\n\n")
 		fmt.Printf("CalculateSignals for %s\n", k)
-		CalculateSignals(ticker_candles[k])
+		CalculateSignals(ticker_candles[k], bot)
 		fmt.Print("\n+++ +++ +++\n\n")
 	}
 }
