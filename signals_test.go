@@ -39,6 +39,7 @@ func TestIsFastAboveSlow(t *testing.T) {
 		want bool
 	}{
 		{"fast is above slow", args{slow: []float64{-0.5}, fast: []float64{0}}, true},
+		{"fast is above slow when values are 0", args{slow: []float64{0}, fast: []float64{0}}, false},
 		{"slow is above fast", args{slow: []float64{-0.5}, fast: []float64{-1}}, false},
 		{"fast is equal to slow", args{slow: []float64{-0.5}, fast: []float64{-1}}, false},
 	}

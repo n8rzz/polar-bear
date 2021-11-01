@@ -8,8 +8,8 @@ import (
 )
 
 type SignalComparisonAndValue struct {
-	Comparison string `json:"comparison"`
-	Value      int    `json:"value"`
+	Comparison string  `json:"comparison"`
+	Value      float64 `json:"value"`
 }
 
 type StrategySegmentParams struct {
